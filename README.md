@@ -7,29 +7,33 @@
 https://jogracz-slot-game.netlify.app/
 
 ## created with:
- - Typescript
- - Webpack
- - Pixi.js
- - Howler.js
+
+- Typescript
+- Webpack
+- Pixi.js
+- Howler.js
 
 ## what's implemented:
- - spinning,
- - generating random symbols on each spin,
- - winning logic,
- - losing logic,
- - basic sounds for spinning, winning, and losing,
+
+- spinning,
+- generating random symbols on each spin,
+- winning logic,
+- losing logic,
+- basic sounds for spinning, winning, and losing,
+- removing old symbols from app tree
 
 ## what could be added/improved:
- - responsiveness,
- - different pay value for each symbol (pay table)
- - better game state system,
- - better animations,
- - removing old symbols from app tree
+
+- responsiveness,
+- different pay value for each symbol (pay table)
+- better game state system,
+- better animations,
+- tests
 
 ## To run it locally, clone this repo and run:
 
 ### `npm install`
 
-and 
+and
 
 ### `npm run start`
