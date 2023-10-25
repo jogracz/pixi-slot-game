@@ -138,6 +138,21 @@ class Game implements GameInterface {
   }
   handleWin() {
     console.log("Handle Win...");
+
+    let uniqueWinningSymbols = new Set(this.winningSymbolIds);
+    console.log(uniqueWinningSymbols);
+    Object.values(this.winningSymbols).forEach((symbolGroup) => {
+      symbolGroup.forEach((symbol) => {
+        symbol.isWinning = true;
+        console.log(symbol);
+        setTimeout(() => {
+          symbol.isWinning = true;
+        }, 1000);
+      });
+
+      this.score += this.config.prize;
+    });
+    this.winningSymbols = {};
   }
 }
 
