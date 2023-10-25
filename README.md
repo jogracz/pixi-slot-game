@@ -12,6 +12,19 @@ https://jogracz-slot-game.netlify.app/
  - Pixi.js
  - Howler.js
 
+## what's implemented:
+ - spinning,
+ - generating random symbols on each spin,
+ - winning logic,
+ - losing logic,
+ - basic sounds for spinning, winning, and losing,
+
+## what could be added/improved:
+ - responsiveness,
+ - different pay value for each symbol (pay table)
+ - better game state system,
+ - better animations,
+ - removing old symbols from app tree
 
 ## To run it locally, clone this repo and run:
 
