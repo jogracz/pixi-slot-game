@@ -1,0 +1,11 @@
+{
+  "name": "pixi-slot-game",
+  "version": "1.0.0",
+  "description": "Slot game made with Typescript &amp; Pixi.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Joanna Graczyk",
+  "license": "ISC"
+}
