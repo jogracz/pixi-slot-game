@@ -22,6 +22,7 @@ class Screen implements ScreenInterface {
     this.numberOfReels = numberOfReels;
     this.isSpinning = false;
 
+    this.createReels();
     console.log("Hello, it's the Screen!");
   }
   update(delta: number) {
@@ -38,6 +39,7 @@ class Screen implements ScreenInterface {
     }
   }
   spin() {
+    console.log("SPINNING from Screen");
     this.reels.forEach((reel) => {
       reel.spin();
     });

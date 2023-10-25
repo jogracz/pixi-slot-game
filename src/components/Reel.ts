@@ -73,6 +73,7 @@ class Reel implements ReelInterface {
     this.container.removeChildren();
   }
   spin() {
+    console.log("Spinning from Reel");
     this.isSpinning = true;
     if (this.symbols.length > 0) {
       this.cleanReel();
