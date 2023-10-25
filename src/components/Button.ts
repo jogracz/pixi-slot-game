@@ -61,7 +61,7 @@ class Button extends PIXI.Graphics {
     this.addChild(text);
   }
   handleOnlick() {
-    this.onclick = () => {
+    this.onpointerdown = () => {
       if (!this.isDisabled) {
         this.game.spin();
       }
