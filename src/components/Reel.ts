@@ -15,6 +15,9 @@ export interface ReelInterface {
   symbols: SymbolInterface[];
 
   update(): void;
+  getRandomSymbol(row: number): SymbolInterface;
+  generateSymbols(): void;
+  cleanReel(): void;
   spin(): void;
 }
 

@@ -36,9 +36,9 @@ class Screen implements ScreenInterface {
     this.isReadyForEvaluation = false;
     this.symbols = [];
     this.container = new PIXI.Container();
+
     this.container.x =
       (this.game.config.gameWidth - this.game.config.screenWidth) / 2;
-
     this.game.app.stage.addChild(this.container);
 
     this.createReels();

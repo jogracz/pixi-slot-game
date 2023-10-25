@@ -27,7 +27,18 @@ export interface GameInterface {
   screen?: ScreenInterface;
 
   update(): void;
+  createScreen(): void;
+  createButton(): void;
+  createLoader(): void;
+  createScoreDisplay(): void;
+  mountComponents(): void;
+  evaluate(): void;
+  handleWinorLoose(): void;
+  handleReadyForReset(): void;
+  playLostSound(): void;
+  playWonSound(): void;
   spin(): void;
+  reset(): void;
 }
 
 class Game implements GameInterface {
@@ -55,17 +66,13 @@ class Game implements GameInterface {
   ) {
     this.app = app;
     this.config = config;
-    this.screen = undefined;
     this.assets = {};
     this.isSpinning = false;
     this.isEvaluating = false;
     this.score = this.config.defaultScore;
-    this.scoreDisplay = undefined;
     this.winningSymbols = {};
     this.winningSymbolIds = [];
-    this.button = undefined;
     this.assetsLoaded = false;
-    this.loader = undefined;
     this.isReadyForReset = false;
     this.sounds = {
       symbol: new Howl({ src: sounds.symbolSoundUrl }),
@@ -136,7 +143,6 @@ class Game implements GameInterface {
       this.config.gameHeight - this.scoreDisplay.height - 130;
     this.app.stage.addChild(this.scoreDisplay);
   }
-
   mountComponents() {
     this.createScreen();
     this.createButton();
