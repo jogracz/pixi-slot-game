@@ -48,8 +48,21 @@ class Screen implements ScreenInterface {
       reel.update(delta);
     });
 
+    if (this.isSpinning) {
+      this.reels.forEach((reel, index) => {
+        if (!reel.isSpinning) {
+          if (index === 0) {
+            reel.spin();
+          } else if (this.reels[index - 1].isReadyForEvaluation) {
+            reel.spin();
+          }
+        }
+      });
+    }
+
     if (this.reels.every((reel: ReelInterface) => reel.isReadyForEvaluation)) {
       this.isReadyForEvaluation = true;
+      this.isSpinning = false;
       if (this.symbols.length === 0) {
         this.saveSymbols();
       }
@@ -67,10 +80,7 @@ class Screen implements ScreenInterface {
     });
   }
   spin() {
-    console.log("SPINNING from Screen");
-    this.reels.forEach((reel) => {
-      reel.spin();
-    });
+    this.isSpinning = true;
   }
   saveSymbols() {
     this.reels.forEach((reel) => {
@@ -78,7 +88,6 @@ class Screen implements ScreenInterface {
     });
   }
   reset() {
-    console.log("611234567890 Screen resetting");
     this.isReadyForEvaluation = false;
     this.reels = [];
     this.isSpinning = false;
