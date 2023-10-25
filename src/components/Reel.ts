@@ -12,7 +12,7 @@ export interface ReelInterface {
   container: PIXI.Container;
   isSpinning: boolean;
   isReadyForEvaluation: boolean;
-  symbols: any[];
+  symbols: SymbolInterface[];
 
   update(delta: number): void;
   spin(): void;
@@ -26,7 +26,7 @@ class Reel implements ReelInterface {
   container: PIXI.Container;
   isSpinning: boolean;
   isReadyForEvaluation: boolean;
-  symbols: any[];
+  symbols: SymbolInterface[];
 
   constructor(game: GameInterface, x: number, y: number) {
     this.game = game;
@@ -46,7 +46,8 @@ class Reel implements ReelInterface {
   }
   update(delta: number) {
     this.symbols.forEach((symbol) => {
-      symbol.update();
+      // TODO: remove delta if not used
+      symbol.update(delta);
     });
 
     if (this.symbols.length > 0) {
@@ -57,7 +58,7 @@ class Reel implements ReelInterface {
       }
     }
   }
-  getRandomSymbol(row: number): PIXI.Sprite {
+  getRandomSymbol(row: number): SymbolInterface {
     const symbolIds = this.game.config.symbolIds;
     const randomNumber = random(0, symbolIds.length);
     const randomSymbolId = symbolIds[randomNumber];

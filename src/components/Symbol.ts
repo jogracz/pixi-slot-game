@@ -2,14 +2,14 @@ import * as PIXI from "pixi.js";
 
 import { GameInterface } from "./Game";
 
-export interface SymbolInterface {
+export interface SymbolInterface extends PIXI.Sprite {
   game: GameInterface;
   speed: number;
   row: number;
   isInTargetPlace: boolean;
   isSpinning: boolean;
   isWinning: boolean;
-  symbolName: string;
+  id: string;
 
   update(delta: number): void;
   handleWin(): void;
