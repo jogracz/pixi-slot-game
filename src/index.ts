@@ -17,6 +17,6 @@ window.onload = async () => {
 
 const game = new Game(app, config);
 
-app.ticker.add((delta) => {
-  game.update(delta);
+app.ticker.add(() => {
+  game.update();
 });

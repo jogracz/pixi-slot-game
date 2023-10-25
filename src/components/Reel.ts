@@ -14,7 +14,7 @@ export interface ReelInterface {
   isReadyForEvaluation: boolean;
   symbols: SymbolInterface[];
 
-  update(delta: number): void;
+  update(): void;
   spin(): void;
 }
 
@@ -44,10 +44,9 @@ class Reel implements ReelInterface {
     // when it's outside of the screen view, remove from the array (.markedForDeletion)
     // (from Pixi docs: or set .renderable to false on an object you dont want to render)
   }
-  update(delta: number) {
+  update() {
     this.symbols.forEach((symbol) => {
-      // TODO: remove delta if not used
-      symbol.update(delta);
+      symbol.update();
     });
 
     if (this.symbols.length > 0) {
@@ -69,7 +68,6 @@ class Reel implements ReelInterface {
     for (let i = 0; i < this.reelLength; i++) {
       const newSymbol = this.getRandomSymbol(i);
       this.container.addChild(newSymbol);
-
       this.symbols.push(newSymbol);
     }
   }
@@ -78,7 +76,6 @@ class Reel implements ReelInterface {
     this.container.removeChildren();
   }
   spin() {
-    console.log("Spinning from Reel");
     this.isSpinning = true;
     if (this.symbols.length > 0) {
       this.cleanReel();

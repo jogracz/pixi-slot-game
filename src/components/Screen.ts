@@ -12,7 +12,7 @@ export interface ScreenInterface {
   container: PIXI.Container;
   symbols: SymbolInterface[];
 
-  update(delta: number): void;
+  update(): void;
   createReels(): void;
   spin(): void;
   saveSymbols(): void;
@@ -43,9 +43,9 @@ class Screen implements ScreenInterface {
 
     this.createReels();
   }
-  update(delta: number) {
+  update() {
     this.reels.forEach((reel, index) => {
-      reel.update(delta);
+      reel.update();
     });
 
     if (this.isSpinning) {

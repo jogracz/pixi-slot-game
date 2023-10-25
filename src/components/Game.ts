@@ -22,7 +22,7 @@ export interface GameInterface {
   scoreDisplay?: PIXI.Text;
   screen?: ScreenInterface;
 
-  update(delta: number): void;
+  update(): void;
   spin(): void;
 }
 
@@ -70,7 +70,7 @@ class Game implements GameInterface {
     PIXI.Assets.addBundle("assets", assets);
     this.assets = await PIXI.Assets.loadBundle("assets");
   }
-  update(delta: number) {
+  update() {
     if (Object.keys(this.assets).length === 0) {
       console.log("Loading...");
     } else if (!this.screen) {
@@ -78,7 +78,7 @@ class Game implements GameInterface {
       this.mountComponents();
     }
 
-    this.screen && this.screen.update(delta);
+    this.screen && this.screen.update();
     if (this.scoreDisplay) {
       this.scoreDisplay.text = this.score.toString();
     }
@@ -150,12 +150,15 @@ class Game implements GameInterface {
     this.loader && this.app.stage.removeChild(this.loader);
   }
   spin() {
+    console.log("Spinning...");
+
     this.button && this.button.disable();
     this.isSpinning = true;
     this.screen && this.screen.spin();
   }
   evaluate() {
     console.log("Evaluating...");
+
     this.isEvaluating = true;
 
     let symbolsOnScreen: SymbolInterface[] = this.screen?.symbols || [];
@@ -179,7 +182,8 @@ class Game implements GameInterface {
     this.handleWinorLoose();
   }
   handleWinorLoose() {
-    console.log("Handle Win or Loose...");
+    console.log("Handling Win or Loose...");
+
     if (this.winningSymbolIds.length === 0) {
       setTimeout(() => {
         this.score -= this.config.prize;

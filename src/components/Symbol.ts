@@ -14,7 +14,7 @@ export interface SymbolInterface extends PIXI.Sprite {
   winningTexture: PIXI.Texture;
   isReadyForReset: boolean;
 
-  update(delta: number): void;
+  update(): void;
   handleWin(): void;
 }
 
@@ -62,7 +62,7 @@ export class Symbol extends PIXI.Sprite {
     // add symbol to visibleSymbols array
     // when it's outside of the screen view, remove from the array (.markedForDeletion) (from Pixi docs: or set .renderable to false on an object you dont want to render)
   }
-  update(delta: number) {
+  update() {
     if (
       this.y <
       this.game.config.srceenHeight - this.height - this.height * this.row
