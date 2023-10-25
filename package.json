@@ -11,6 +11,7 @@
   "author": "Joanna Graczyk",
   "license": "ISC",
   "devDependencies": {
+    "@types/howler": "^2.2.10",
     "css-loader": "^6.8.1",
     "html-webpack-plugin": "^5.5.3",
     "style-loader": "^3.3.3",
@@ -21,6 +22,7 @@
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
+    "howler": "^2.2.4",
     "pixi.js": "^7.3.2"
   }
 }
