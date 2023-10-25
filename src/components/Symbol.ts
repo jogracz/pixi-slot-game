@@ -17,6 +17,8 @@ export interface SymbolInterface extends PIXI.Sprite {
 
   update(): void;
   handleWin(): void;
+  handleRemove(): void;
+  playSound(): void;
 }
 
 export class Symbol extends PIXI.Sprite {
@@ -57,13 +59,6 @@ export class Symbol extends PIXI.Sprite {
     this.isTextureUpdated = false;
     this.isReadyForReset = false;
     this.soundPlayed = false;
-
-    // todo
-    // generate random number from 0 to symbols.length
-    // and add this symbol sprite to the scene with y position = -spriteHeight
-    // and add speed to it on every render (y += speed),
-    // add symbol to visibleSymbols array
-    // when it's outside of the screen view, remove from the array (.markedForDeletion) (from Pixi docs: or set .renderable to false on an object you dont want to render)
   }
   update() {
     if (
