@@ -13,6 +13,7 @@ export interface SymbolInterface extends PIXI.Sprite {
   isTextureUpdated: boolean;
   winningTexture: PIXI.Texture;
   isReadyForReset: boolean;
+  soundPlayed: boolean;
 
   update(): void;
   handleWin(): void;
@@ -30,6 +31,7 @@ export class Symbol extends PIXI.Sprite {
   isTextureUpdated: boolean;
   winningTexture: PIXI.Texture;
   isReadyForReset: boolean;
+  soundPlayed: boolean;
 
   constructor(
     game: GameInterface,
@@ -54,6 +56,7 @@ export class Symbol extends PIXI.Sprite {
     this.winningTexture = this.game.assets[`${id}_connect`];
     this.isTextureUpdated = false;
     this.isReadyForReset = false;
+    this.soundPlayed = false;
 
     // todo
     // generate random number from 0 to symbols.length
@@ -70,6 +73,7 @@ export class Symbol extends PIXI.Sprite {
       this.y += this.speed;
     } else {
       this.isInTargetPlace = true;
+      !this.soundPlayed && this.playSound();
     }
 
     this.handleWin();
@@ -86,5 +90,9 @@ export class Symbol extends PIXI.Sprite {
     if (this.y > this.game.config.srceenHeight) {
       this.isMarkedForDeletion = true;
     }
+  }
+  playSound() {
+    this.soundPlayed = true;
+    this.game.sounds.symbol.play();
   }
 }

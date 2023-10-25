@@ -1,5 +1,7 @@
 import * as PIXI from "pixi.js";
-import assets from "../assets";
+import { Howl } from "howler";
+
+import { images, sounds } from "../assets";
 import { ConfigInterface } from "../config";
 import Button, { ButtonInterface } from "./Button";
 import Screen, { ScreenInterface } from "./Screen";
@@ -16,6 +18,8 @@ export interface GameInterface {
   winningSymbolIds: string[];
   assetsLoaded: boolean;
   isReadyForReset: boolean;
+  sounds: { [key: string]: Howl };
+  soundPlayed: boolean;
 
   loader?: PIXI.Text;
   button?: ButtonInterface;
@@ -37,6 +41,8 @@ class Game implements GameInterface {
   winningSymbolIds: string[];
   assetsLoaded: boolean;
   isReadyForReset: boolean;
+  sounds: { [key: string]: Howl };
+  soundPlayed: boolean;
 
   loader?: PIXI.Text;
   button?: ButtonInterface;
@@ -61,19 +67,23 @@ class Game implements GameInterface {
     this.assetsLoaded = false;
     this.loader = undefined;
     this.isReadyForReset = false;
+    this.sounds = {
+      symbol: new Howl({ src: sounds.symbolSoundUrl }),
+      lost: new Howl({ src: sounds.lostSoundUrl }),
+      won: new Howl({ src: sounds.wonSoundUrl }),
+    };
+    this.soundPlayed = false;
 
     this.loadAssets();
     this.createLoader();
   }
   async loadAssets() {
     console.log("Loading assets...");
-    PIXI.Assets.addBundle("assets", assets);
+    PIXI.Assets.addBundle("assets", images);
     this.assets = await PIXI.Assets.loadBundle("assets");
   }
   update() {
-    if (Object.keys(this.assets).length === 0) {
-      console.log("Loading...");
-    } else if (!this.screen) {
+    if (Object.keys(this.assets).length > 0 && !this.screen) {
       this.assetsLoaded = true;
       this.mountComponents();
     }
@@ -172,6 +182,7 @@ class Game implements GameInterface {
       setTimeout(() => {
         this.score -= this.config.prize;
       }, 150);
+      !this.soundPlayed && this.playLostSound();
     }
 
     Object.values(this.winningSymbols).forEach((symbolGroup) => {
@@ -182,6 +193,7 @@ class Game implements GameInterface {
       });
       setTimeout(() => {
         this.score += this.config.prize;
+        !this.soundPlayed && this.playWonSound();
       }, 150);
     });
   }
@@ -204,6 +216,15 @@ class Game implements GameInterface {
       this.reset();
     }
   }
+  playLostSound() {
+    this.soundPlayed = true;
+    this.sounds.lost.play();
+  }
+  playWonSound() {
+    console.log("WON SOUND");
+    this.soundPlayed = true;
+    this.sounds.won.play();
+  }
   reset() {
     console.log("Resetting");
 
@@ -213,6 +234,7 @@ class Game implements GameInterface {
     this.isEvaluating = false;
     this.winningSymbols = {};
     this.winningSymbolIds = [];
+    this.soundPlayed = false;
     this.button?.enable();
   }
 }
