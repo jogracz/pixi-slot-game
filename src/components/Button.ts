@@ -71,10 +71,12 @@ class Button extends PIXI.Graphics {
   disable() {
     this.isDisabled = true;
     this.cursor = "auto";
+    this.alpha = 0.5;
   }
   enable() {
     this.isDisabled = false;
     this.cursor = "pointer";
+    this.alpha = 1;
   }
 }
 export default Button;
