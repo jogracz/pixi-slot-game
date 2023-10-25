@@ -1,8 +1,9 @@
 import { GameInterface } from "./Game";
+import Reel, { ReelInterface } from "./Reel";
 
 export interface ScreenInterface {
   game: GameInterface;
-  reels: any[];
+  reels: ReelInterface[];
   numberOfReels: number;
   isSpinning: boolean;
   update(delta: number): void;
@@ -11,7 +12,7 @@ export interface ScreenInterface {
 
 class Screen implements ScreenInterface {
   game: GameInterface;
-  reels: any[];
+  reels: ReelInterface[];
   numberOfReels: number;
   isSpinning: boolean;
 
@@ -27,6 +28,14 @@ class Screen implements ScreenInterface {
     this.reels.forEach((reel) => {
       reel.update(delta);
     });
+  }
+  createReels() {
+    // create reels
+    for (let i = 0; i < this.numberOfReels; i++) {
+      const x = i * this.game.config.reelWidth;
+      const y = 0;
+      this.reels.push(new Reel(this.game, x, y));
+    }
   }
   spin() {
     this.reels.forEach((reel) => {
