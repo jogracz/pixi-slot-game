@@ -227,7 +227,6 @@ class Game implements GameInterface {
     this.sounds.lost.play();
   }
   playWonSound() {
-    console.log("WON SOUND");
     this.soundPlayed = true;
     this.sounds.won.play();
   }
