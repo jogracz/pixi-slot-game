@@ -88,23 +88,7 @@ class Game implements GameInterface {
       this.evaluate();
     }
 
-    if (this.isEvaluating) {
-      if (Object.keys(this.winningSymbols).length > 0) {
-        if (
-          Object.values(this.winningSymbols)[0].every(
-            (symbol) => symbol.isTextureUpdated
-          )
-        ) {
-          this.isReadyForReset = true;
-        }
-      } else {
-        this.isReadyForReset = true;
-      }
-    }
-
-    if (this.isReadyForReset) {
-      this.reset();
-    }
+    this.handleReadyForReset();
   }
   createScreen() {
     this.screen = new Screen(this, this.config.numberOfReels);
@@ -200,6 +184,25 @@ class Game implements GameInterface {
         this.score += this.config.prize;
       }, 150);
     });
+  }
+  handleReadyForReset() {
+    if (this.isEvaluating) {
+      if (Object.keys(this.winningSymbols).length > 0) {
+        if (
+          Object.values(this.winningSymbols)[0].every(
+            (symbol) => symbol.isTextureUpdated
+          )
+        ) {
+          this.isReadyForReset = true;
+        }
+      } else {
+        this.isReadyForReset = true;
+      }
+    }
+
+    if (this.isReadyForReset) {
+      this.reset();
+    }
   }
   reset() {
     console.log("Resetting");
