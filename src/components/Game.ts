@@ -121,7 +121,7 @@ class Game implements GameInterface {
       fill: "#66CCCC",
     });
     this.loader.x = (this.config.gameWidth - this.loader.width) / 2;
-    this.loader.y = this.config.gameHeight - this.loader.height - 130;
+    this.loader.y = (this.config.gameHeight - this.loader.height) / 2;
     this.app.stage.addChild(this.loader);
   }
   createScoreDisplay() {
