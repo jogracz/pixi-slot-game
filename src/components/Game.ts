@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 import assets from "../assets";
 import { ConfigInterface } from "../config";
+import Button from "./Button";
 import Screen, { ScreenInterface } from "./Screen";
 
 export interface GameInterface {
@@ -8,22 +9,20 @@ export interface GameInterface {
   config: ConfigInterface;
   screen: ScreenInterface;
   isSpinning: boolean;
-
   assets: { [key: string]: any };
+  button: PIXI.Graphics;
 
-  // spinButton: PIXI.Sprite;
   update(delta: number): void;
+  spin(): void;
 }
 
 class Game implements GameInterface {
   app: PIXI.Application<HTMLCanvasElement>;
   config: ConfigInterface;
   screen: ScreenInterface;
-
   isSpinning: boolean;
-  // spinButton: PIXI.Sprite;
-
   assets: { [key: string]: any };
+  button: PIXI.Graphics;
 
   constructor(
     app: PIXI.Application<HTMLCanvasElement>,
@@ -34,7 +33,14 @@ class Game implements GameInterface {
     this.screen = new Screen(this, config.numberOfReels);
     this.assets = {};
     this.isSpinning = false;
-    // this.spinButton = undefined
+    this.button = new Button(
+      this,
+      (this.config.gameWidth - 200) / 2,
+      this.config.gameHeight - 100 - 10,
+      200,
+      100,
+      "Spin!"
+    );
 
     this.loadAssets();
 
@@ -47,6 +53,7 @@ class Game implements GameInterface {
   }
   update(delta: number) {}
   spin() {
+    console.log("Spinning!");
     this.isSpinning = true;
   }
 }
