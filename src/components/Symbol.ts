@@ -77,10 +77,8 @@ export class Symbol extends PIXI.Sprite {
   }
   handleWin() {
     if (this.isWinning && !this.isTextureUpdated) {
-      console.log("AAAAAA", this.id);
       this.texture = this.winningTexture;
       this.isTextureUpdated = true;
-
       this.isReadyForReset = true;
     }
   }
