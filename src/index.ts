@@ -1,7 +1,8 @@
 import * as PIXI from "pixi.js";
 
 import "./style.css";
-import config, { ConfigInterface } from "./config";
+import config from "./config";
+import { Game } from "./components/Game";
 
 const app = new PIXI.Application<HTMLCanvasElement>({
   width: config.gameWidth,
@@ -13,3 +14,9 @@ const app = new PIXI.Application<HTMLCanvasElement>({
 window.onload = async () => {
   document.body.appendChild(app.view);
 };
+
+const game = new Game(app, config);
+
+app.ticker.add((delta) => {
+  game.update(delta);
+});
