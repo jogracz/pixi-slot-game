@@ -9,16 +9,19 @@ export interface ConfigInterface {
   gameWidth: number;
   gameHeight: number;
   backgroundColor: string;
+  screenWidth: number;
+  srceenHeight: number;
   numberOfReels: number;
+  reelLength: number;
   reelWidth: number;
   symbolWidth: number;
   spinningSpeed: number;
-  minMatching: number;
+  minMatch: number;
   defaultScore: number;
   prize: number;
 }
 
-const config = {
+const config: ConfigInterface = {
   gameWidth: 800,
   gameHeight: 600,
   backgroundColor: "black",
