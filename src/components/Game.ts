@@ -94,6 +94,9 @@ class Game implements GameInterface {
     }
 
     this.screen && this.screen.update(delta);
+    if (this.scoreDisplay) {
+      this.scoreDisplay.text = this.score.toString();
+    }
 
     if (this.screen && this.screen.isReadyForEvaluation && !this.isEvaluating) {
       this.isSpinning = false;
