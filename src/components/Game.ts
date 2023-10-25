@@ -11,11 +11,13 @@ export interface GameInterface {
   isSpinning: boolean;
   isEvaluating: boolean;
   assets: { [key: string]: any };
-  button: ButtonInterface;
   score: number;
   winningSymbols: { [key: string]: SymbolInterface[] };
   winningSymbolIds: string[];
+  assetsLoaded: boolean;
 
+  loader?: PIXI.Text;
+  button?: ButtonInterface;
   scoreDisplay?: PIXI.Text;
   screen?: ScreenInterface;
 
@@ -29,11 +31,13 @@ class Game implements GameInterface {
   isSpinning: boolean;
   isEvaluating: boolean;
   assets: { [key: string]: any };
-  button: ButtonInterface;
   score: number;
   winningSymbols: { [key: string]: SymbolInterface[] };
   winningSymbolIds: string[];
+  assetsLoaded: boolean;
 
+  loader?: PIXI.Text;
+  button?: ButtonInterface;
   scoreDisplay?: PIXI.Text;
   screen?: ScreenInterface;
 
@@ -51,46 +55,24 @@ class Game implements GameInterface {
     this.scoreDisplay = undefined;
     this.winningSymbols = {};
     this.winningSymbolIds = [];
-    this.button = new Button(
-      this,
-      (this.config.gameWidth - 200) / 2,
-      this.config.gameHeight - 100 - 10,
-      200,
-      100,
-      "Spin!"
-    );
+    this.button = undefined;
+    this.assetsLoaded = false;
+    this.loader = undefined;
 
     this.loadAssets();
-    this.createScoreDisplay();
+    this.createLoader();
   }
   async loadAssets() {
     console.log("Loading assets...");
     PIXI.Assets.addBundle("assets", assets);
     this.assets = await PIXI.Assets.loadBundle("assets");
   }
-  createScreen() {
-    this.screen = new Screen(this, this.config.numberOfReels);
-  }
-  createScoreDisplay() {
-    this.scoreDisplay = new PIXI.Text(this.score, {
-      fontFamily: "Arial",
-      fontSize: 42,
-      fontWeight: "bold",
-      fill: "#ffffff",
-    });
-    this.scoreDisplay.x = (this.config.gameWidth - this.scoreDisplay.width) / 2;
-    this.scoreDisplay.y =
-      this.config.gameHeight -
-      this.scoreDisplay.height -
-      this.button.height -
-      30;
-    this.app.stage.addChild(this.scoreDisplay);
-  }
   update(delta: number) {
     if (Object.keys(this.assets).length === 0) {
       console.log("Loading...");
     } else if (!this.screen) {
-      this.createScreen();
+      this.assetsLoaded = true;
+      this.mountComponents();
     }
 
     this.screen && this.screen.update(delta);
@@ -103,8 +85,51 @@ class Game implements GameInterface {
       this.evaluate();
     }
   }
+  createScreen() {
+    this.screen = new Screen(this, this.config.numberOfReels);
+  }
+  createButton() {
+    this.button = new Button(
+      this,
+      (this.config.gameWidth - 200) / 2,
+      this.config.gameHeight - 100 - 10,
+      200,
+      100,
+      "Spin!"
+    );
+  }
+  createLoader() {
+    this.loader = new PIXI.Text("Loading...", {
+      fontFamily: "Arial",
+      fontSize: 42,
+      fontWeight: "bold",
+      fill: "#66CCCC",
+    });
+    this.loader.x = (this.config.gameWidth - this.loader.width) / 2;
+    this.loader.y = this.config.gameHeight - this.loader.height - 130;
+    this.app.stage.addChild(this.loader);
+  }
+  createScoreDisplay() {
+    this.scoreDisplay = new PIXI.Text(this.score, {
+      fontFamily: "Arial",
+      fontSize: 42,
+      fontWeight: "bold",
+      fill: "#ffffff",
+    });
+    this.scoreDisplay.x = (this.config.gameWidth - this.scoreDisplay.width) / 2;
+    this.scoreDisplay.y =
+      this.config.gameHeight - this.scoreDisplay.height - 130;
+    this.app.stage.addChild(this.scoreDisplay);
+  }
+
+  mountComponents() {
+    this.createScreen();
+    this.createButton();
+    this.createScoreDisplay();
+    this.loader && this.app.stage.removeChild(this.loader);
+  }
   spin() {
-    this.button.disable();
+    this.button && this.button.disable();
     this.isSpinning = true;
     this.screen && this.screen.spin();
   }
