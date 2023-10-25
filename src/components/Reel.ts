@@ -1,5 +1,8 @@
 import * as PIXI from "pixi.js";
+
+import { random } from "../helpers";
 import { GameInterface } from "./Game";
+import { Symbol } from "./Symbol";
 
 export interface ReelInterface {
   game: GameInterface;
@@ -43,7 +46,28 @@ class Reel implements ReelInterface {
       symbol.update();
     });
   }
-  createSymbols() {}
+  getRandomSymbol(): PIXI.Sprite {
+    const symbolIds = this.game.config.symbolIds;
+
+    const randomNumber = random(0, symbolIds.length);
+
+    const randomSymbolId = symbolIds[randomNumber];
+
+    const randomTexture = this.game.assets[randomSymbolId];
+    console.log("randomTexture:", randomTexture);
+
+    return new Symbol(this.game, randomTexture, this.x, randomSymbolId);
+  }
+  generateSymbols() {
+    for (let i = 0; i < this.reelLength; i++) {
+      const newSymbol = this.getRandomSymbol();
+      newSymbol.y = -250 * i;
+      this.container.addChild(newSymbol);
+
+      this.symbols.push(newSymbol);
+    }
+    console.log(this.symbols);
+  }
   cleanReel() {
     this.symbols = [];
     this.container.removeChildren();
@@ -53,7 +77,7 @@ class Reel implements ReelInterface {
     if (this.symbols.length > 0) {
       this.cleanReel();
     }
-    this.createSymbols();
+    this.generateSymbols();
   }
 }
 export default Reel;
