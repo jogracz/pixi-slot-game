@@ -159,7 +159,6 @@ class Game implements GameInterface {
     this.isEvaluating = true;
 
     let symbolsOnScreen: SymbolInterface[] = this.screen?.symbols || [];
-    // let allSymbolsCopy = [...allSymbolsOnScreen];
 
     symbolsOnScreen.forEach((symbol) => {
       const numberOfMatching = symbolsOnScreen.filter(
@@ -167,8 +166,6 @@ class Game implements GameInterface {
       ).length;
 
       if (numberOfMatching >= this.config.minMatch) {
-        console.log(numberOfMatching, symbol.id);
-        // TODO: winningSymbols = {[symbolName]: [symbol, symbol, symbol]}
         if (this.winningSymbols[symbol.id]) {
           this.winningSymbols[symbol.id].push(symbol);
         } else {
@@ -179,33 +176,32 @@ class Game implements GameInterface {
       }
     });
 
-    // this.willBeEvaluated = false;
-
-    console.log(symbolsOnScreen);
-    console.log(this.winningSymbols);
-    this.handleWin();
+    this.handleWinorLoose();
   }
-  handleWin() {
-    console.log("Handle Win...");
+  handleWinorLoose() {
+    console.log("Handle Win or Loose...");
+    if (this.winningSymbolIds.length === 0) {
+      setTimeout(() => {
+        this.score -= this.config.prize;
+      }, 150);
+    }
 
-    let uniqueWinningSymbols = new Set(this.winningSymbolIds);
-    console.log(uniqueWinningSymbols);
     Object.values(this.winningSymbols).forEach((symbolGroup) => {
       symbolGroup.forEach((symbol) => {
-        symbol.isWinning = true;
         setTimeout(() => {
           symbol.isWinning = true;
-        }, 1000);
+        }, 150);
       });
-
-      this.score += this.config.prize;
+      setTimeout(() => {
+        this.score += this.config.prize;
+      }, 150);
     });
-    // this.winningSymbols = {};
   }
   reset() {
+    console.log("Resetting");
+
     this.screen?.reset();
     this.isReadyForReset = false;
-    console.log("Resseting");
     this.isSpinning = false;
     this.isEvaluating = false;
     this.winningSymbols = {};
