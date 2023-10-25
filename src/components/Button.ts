@@ -53,7 +53,7 @@ class Button extends PIXI.Graphics {
       fontFamily: "Arial",
       fontSize: 34,
       fontWeight: "bold",
-      fill: "#ffffff",
+      fill: "#e6c42e",
     });
     text.x = (this.width - text.width) / 2;
     text.y = (this.height - text.height) / 2;
