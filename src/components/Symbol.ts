@@ -56,9 +56,9 @@ export class Symbol extends PIXI.Sprite {
   update(delta: number) {
     if (
       this.y <
-      this.game.config.srceenHeight - this.height - (this.height + 0) * this.row
+      this.game.config.srceenHeight - this.height - this.height * this.row
     ) {
-      this.y += 10;
+      this.y += this.speed;
     } else {
       this.isInTargetPlace = true;
     }
