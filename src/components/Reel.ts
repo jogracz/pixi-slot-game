@@ -42,31 +42,24 @@ class Reel implements ReelInterface {
     // (from Pixi docs: or set .renderable to false on an object you dont want to render)
   }
   update(delta: number) {
-    this.symbols.forEach((symbol, index) => {
+    this.symbols.forEach((symbol) => {
       symbol.update();
     });
   }
-  getRandomSymbol(): PIXI.Sprite {
+  getRandomSymbol(row: number): PIXI.Sprite {
     const symbolIds = this.game.config.symbolIds;
-
     const randomNumber = random(0, symbolIds.length);
-
     const randomSymbolId = symbolIds[randomNumber];
-
     const randomTexture = this.game.assets[randomSymbolId];
-    console.log("randomTexture:", randomTexture);
-
-    return new Symbol(this.game, randomTexture, this.x, randomSymbolId);
+    return new Symbol(this.game, randomTexture, this.x, randomSymbolId, row);
   }
   generateSymbols() {
     for (let i = 0; i < this.reelLength; i++) {
-      const newSymbol = this.getRandomSymbol();
-      newSymbol.y = -250 * i;
+      const newSymbol = this.getRandomSymbol(i);
       this.container.addChild(newSymbol);
 
       this.symbols.push(newSymbol);
     }
-    console.log(this.symbols);
   }
   cleanReel() {
     this.symbols = [];

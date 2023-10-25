@@ -23,7 +23,6 @@ class Screen implements ScreenInterface {
     this.isSpinning = false;
 
     this.createReels();
-    console.log("Hello, it's the Screen!");
   }
   update(delta: number) {
     this.reels.forEach((reel) => {
