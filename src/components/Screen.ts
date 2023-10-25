@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 import { GameInterface } from "./Game";
 import Reel, { ReelInterface } from "./Reel";
+import { SymbolInterface } from "./Symbol";
 
 export interface ScreenInterface {
   game: GameInterface;
@@ -9,6 +10,7 @@ export interface ScreenInterface {
   isSpinning: boolean;
   isReadyForEvaluation: boolean;
   container: PIXI.Container;
+  symbols: SymbolInterface[];
 
   update(delta: number): void;
   spin(): void;
@@ -21,6 +23,7 @@ class Screen implements ScreenInterface {
   isSpinning: boolean;
   isReadyForEvaluation: boolean;
   container: PIXI.Container;
+  symbols: SymbolInterface[];
 
   constructor(game: GameInterface, numberOfReels: number) {
     this.game = game;
@@ -28,6 +31,7 @@ class Screen implements ScreenInterface {
     this.numberOfReels = numberOfReels;
     this.isSpinning = false;
     this.isReadyForEvaluation = false;
+    this.symbols = [];
     this.container = new PIXI.Container();
     this.container.x =
       (this.game.config.gameWidth - this.game.config.screenWidth) / 2;
@@ -37,12 +41,15 @@ class Screen implements ScreenInterface {
     this.createReels();
   }
   update(delta: number) {
-    console.log("Screen is ready for evaluation:", this.isReadyForEvaluation);
     this.reels.forEach((reel, index) => {
       reel.update(delta);
     });
+
     if (this.reels.every((reel: ReelInterface) => reel.isReadyForEvaluation)) {
       this.isReadyForEvaluation = true;
+      if (this.symbols.length === 0) {
+        this.saveSymbols();
+      }
     }
   }
   createReels() {
@@ -60,6 +67,11 @@ class Screen implements ScreenInterface {
     console.log("SPINNING from Screen");
     this.reels.forEach((reel) => {
       reel.spin();
+    });
+  }
+  saveSymbols() {
+    this.reels.forEach((reel) => {
+      this.symbols.push(...reel.symbols);
     });
   }
 }
