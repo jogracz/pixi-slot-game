@@ -2,7 +2,7 @@ import * as PIXI from "pixi.js";
 
 import "./style.css";
 import config from "./config";
-import { Game } from "./components/Game";
+import Game from "./components/Game";
 
 const app = new PIXI.Application<HTMLCanvasElement>({
   width: config.gameWidth,
