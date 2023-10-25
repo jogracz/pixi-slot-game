@@ -90,7 +90,7 @@ class Game implements GameInterface {
 
     this.screen && this.screen.update();
     if (this.scoreDisplay) {
-      this.scoreDisplay.text = this.score.toString();
+      this.scoreDisplay.text = `${this.score} $`;
     }
 
     if (this.screen && this.screen.isReadyForEvaluation && !this.isEvaluating) {
@@ -125,7 +125,7 @@ class Game implements GameInterface {
     this.app.stage.addChild(this.loader);
   }
   createScoreDisplay() {
-    this.scoreDisplay = new PIXI.Text(this.score, {
+    this.scoreDisplay = new PIXI.Text(`${this.score} $`, {
       fontFamily: "Arial",
       fontSize: 42,
       fontWeight: "bold",
