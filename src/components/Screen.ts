@@ -81,11 +81,19 @@ class Screen implements ScreenInterface {
   }
   spin() {
     this.isSpinning = true;
+    this.removeOldReels();
   }
   saveSymbols() {
     this.reels.forEach((reel) => {
       this.symbols.push(...reel.symbols);
     });
+  }
+  removeOldReels() {
+    if (this.container.children.length > this.numberOfReels) {
+      for (let i = 0; i < this.numberOfReels; i++) {
+        this.container.removeChildAt(0);
+      }
+    }
   }
   reset() {
     this.isReadyForEvaluation = false;
