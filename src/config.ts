@@ -25,7 +25,7 @@ const config: ConfigInterface = {
   reelWidth: 700 / 5,
   symbolWidth: 700 / 5,
   symbolHeight: 400 / 3,
-  spinningSpeed: 15,
+  spinningSpeed: 30,
   minMatch: 3,
   defaultScore: 100,
   prize: 5,
