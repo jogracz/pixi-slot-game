@@ -10,6 +10,9 @@ export interface SymbolInterface extends PIXI.Sprite {
   isSpinning: boolean;
   isWinning: boolean;
   id: string;
+  isTextureUpdated: boolean;
+  winningTexture: PIXI.Texture;
+  isReadyForReset: boolean;
 
   update(delta: number): void;
   handleWin(): void;
@@ -24,6 +27,9 @@ export class Symbol extends PIXI.Sprite {
   isSpinning: boolean;
   isMarkedForDeletion: boolean;
   isWinning: boolean;
+  isTextureUpdated: boolean;
+  winningTexture: PIXI.Texture;
+  isReadyForReset: boolean;
 
   constructor(
     game: GameInterface,
@@ -45,6 +51,9 @@ export class Symbol extends PIXI.Sprite {
     this.isSpinning = true;
     this.isMarkedForDeletion = false;
     this.isWinning = false;
+    this.winningTexture = this.game.assets[`${id}_connect`];
+    this.isTextureUpdated = false;
+    this.isReadyForReset = false;
 
     // todo
     // generate random number from 0 to symbols.length
@@ -63,9 +72,18 @@ export class Symbol extends PIXI.Sprite {
       this.isInTargetPlace = true;
     }
 
+    this.handleWin();
     this.handleRemove();
   }
-  handleWin() {}
+  handleWin() {
+    if (this.isWinning && !this.isTextureUpdated) {
+      console.log("AAAAAA", this.id);
+      this.texture = this.winningTexture;
+      this.isTextureUpdated = true;
+
+      this.isReadyForReset = true;
+    }
+  }
   handleRemove() {
     if (this.y > this.game.config.srceenHeight) {
       this.isMarkedForDeletion = true;
