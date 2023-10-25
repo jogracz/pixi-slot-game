@@ -45,8 +45,6 @@ class Game implements GameInterface {
     );
 
     this.loadAssets();
-
-    console.log("Hello, it's the Game!");
   }
   async loadAssets() {
     console.log("Loading assets...");
@@ -62,9 +60,10 @@ class Game implements GameInterface {
     } else if (!this.screen) {
       this.createScreen();
     }
+
+    this.screen && this.screen.update(delta);
   }
   spin() {
-    console.log("SPINNING from Game");
     this.isSpinning = true;
     this.screen && this.screen.spin();
   }
