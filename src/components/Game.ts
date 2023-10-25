@@ -3,6 +3,7 @@ import assets from "../assets";
 import { ConfigInterface } from "../config";
 import Button, { ButtonInterface } from "./Button";
 import Screen, { ScreenInterface } from "./Screen";
+import { SymbolInterface } from "./Symbol";
 
 export interface GameInterface {
   app: PIXI.Application<HTMLCanvasElement>;
@@ -12,6 +13,8 @@ export interface GameInterface {
   assets: { [key: string]: any };
   button: ButtonInterface;
   score: number;
+  winningSymbols: { [key: string]: SymbolInterface[] };
+  winningSymbolIds: string[];
 
   scoreDisplay?: PIXI.Text;
   screen?: ScreenInterface;
@@ -28,6 +31,8 @@ class Game implements GameInterface {
   assets: { [key: string]: any };
   button: ButtonInterface;
   score: number;
+  winningSymbols: { [key: string]: SymbolInterface[] };
+  winningSymbolIds: string[];
 
   scoreDisplay?: PIXI.Text;
   screen?: ScreenInterface;
@@ -44,6 +49,8 @@ class Game implements GameInterface {
     this.isEvaluating = false;
     this.score = this.config.defaultScore;
     this.scoreDisplay = undefined;
+    this.winningSymbols = {};
+    this.winningSymbolIds = [];
     this.button = new Button(
       this,
       (this.config.gameWidth - 200) / 2,
@@ -101,6 +108,36 @@ class Game implements GameInterface {
   evaluate() {
     console.log("Evaluating...");
     this.isEvaluating = true;
+
+    let symbolsOnScreen: SymbolInterface[] = this.screen?.symbols || [];
+    // let allSymbolsCopy = [...allSymbolsOnScreen];
+
+    symbolsOnScreen.forEach((symbol) => {
+      const numberOfMatching = symbolsOnScreen.filter(
+        (symbol2) => symbol.id === symbol2.id
+      ).length;
+
+      if (numberOfMatching >= this.config.minMatch) {
+        console.log(numberOfMatching, symbol.id);
+        // TODO: winningSymbols = {[symbolName]: [symbol, symbol, symbol]}
+        if (this.winningSymbols[symbol.id]) {
+          this.winningSymbols[symbol.id].push(symbol);
+        } else {
+          this.winningSymbols[symbol.id] = [symbol];
+        }
+
+        this.winningSymbolIds.push(symbol.id);
+      }
+    });
+
+    // this.willBeEvaluated = false;
+
+    console.log(symbolsOnScreen);
+    console.log(this.winningSymbols);
+    this.handleWin();
+  }
+  handleWin() {
+    console.log("Handle Win...");
   }
 }
 
