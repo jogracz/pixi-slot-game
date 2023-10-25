@@ -15,6 +15,7 @@ export interface GameInterface {
   winningSymbols: { [key: string]: SymbolInterface[] };
   winningSymbolIds: string[];
   assetsLoaded: boolean;
+  isReadyForReset: boolean;
 
   loader?: PIXI.Text;
   button?: ButtonInterface;
@@ -35,6 +36,7 @@ class Game implements GameInterface {
   winningSymbols: { [key: string]: SymbolInterface[] };
   winningSymbolIds: string[];
   assetsLoaded: boolean;
+  isReadyForReset: boolean;
 
   loader?: PIXI.Text;
   button?: ButtonInterface;
@@ -58,6 +60,7 @@ class Game implements GameInterface {
     this.button = undefined;
     this.assetsLoaded = false;
     this.loader = undefined;
+    this.isReadyForReset = false;
 
     this.loadAssets();
     this.createLoader();
@@ -83,6 +86,24 @@ class Game implements GameInterface {
     if (this.screen && this.screen.isReadyForEvaluation && !this.isEvaluating) {
       this.isSpinning = false;
       this.evaluate();
+    }
+
+    if (this.isEvaluating) {
+      if (Object.keys(this.winningSymbols).length > 0) {
+        if (
+          Object.values(this.winningSymbols)[0].every(
+            (symbol) => symbol.isTextureUpdated
+          )
+        ) {
+          this.isReadyForReset = true;
+        }
+      } else {
+        this.isReadyForReset = true;
+      }
+    }
+
+    if (this.isReadyForReset) {
+      this.reset();
     }
   }
   createScreen() {
@@ -172,7 +193,6 @@ class Game implements GameInterface {
     Object.values(this.winningSymbols).forEach((symbolGroup) => {
       symbolGroup.forEach((symbol) => {
         symbol.isWinning = true;
-        console.log(symbol);
         setTimeout(() => {
           symbol.isWinning = true;
         }, 1000);
@@ -180,7 +200,17 @@ class Game implements GameInterface {
 
       this.score += this.config.prize;
     });
+    // this.winningSymbols = {};
+  }
+  reset() {
+    this.screen?.reset();
+    this.isReadyForReset = false;
+    console.log("Resseting");
+    this.isSpinning = false;
+    this.isEvaluating = false;
     this.winningSymbols = {};
+    this.winningSymbolIds = [];
+    this.button?.enable();
   }
 }
 
