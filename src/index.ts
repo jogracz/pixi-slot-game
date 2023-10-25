@@ -1,11 +1,12 @@
 import * as PIXI from "pixi.js";
 
 import "./style.css";
+import config, { ConfigInterface } from "./config";
 
 const app = new PIXI.Application<HTMLCanvasElement>({
-  width: 800,
-  height: 600,
-  backgroundColor: "black",
+  width: config.gameWidth,
+  height: config.gameHeight,
+  backgroundColor: config.backgroundColor,
   // resizeTo: window,
 });
 

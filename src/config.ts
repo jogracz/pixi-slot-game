@@ -8,6 +8,7 @@
 export interface ConfigInterface {
   gameWidth: number;
   gameHeight: number;
+  backgroundColor: string;
   numberOfReels: number;
   reelWidth: number;
   symbolWidth: number;
@@ -20,6 +21,7 @@ export interface ConfigInterface {
 const config = {
   gameWidth: 800,
   gameHeight: 600,
+  backgroundColor: "black",
   screenWidth: 700,
   srceenHeight: 400,
   numberOfReels: 5,
