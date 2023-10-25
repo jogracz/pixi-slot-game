@@ -15,6 +15,7 @@ export interface ConfigInterface {
   reelLength: number;
   reelWidth: number;
   symbolWidth: number;
+  symbolHeight: number;
   spinningSpeed: number;
   minMatch: number;
   defaultScore: number;
@@ -32,6 +33,7 @@ const config: ConfigInterface = {
   reelLength: 3,
   reelWidth: 700 / 5,
   symbolWidth: 700 / 5,
+  symbolHeight: 400 / 3,
   spinningSpeed: 10,
   minMatch: 3,
   defaultScore: 100,

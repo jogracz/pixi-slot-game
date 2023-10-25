@@ -35,6 +35,8 @@ export class Symbol extends PIXI.Sprite {
     this.speed = game.config.spinningSpeed;
     this.x = x;
     this.y = 0;
+    this.width = game.config.symbolWidth;
+    this.height = game.config.symbolHeight;
     this.isSpinning = true;
     this.isMarkedForDeletion = false;
     this.isWinning = false;
