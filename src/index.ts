@@ -7,7 +7,7 @@ import Game from "./components/Game";
 const app = new PIXI.Application<HTMLCanvasElement>({
   width: config.gameWidth,
   height: config.gameHeight,
-  backgroundColor: config.backgroundColor,
+  backgroundAlpha: 0,
   // resizeTo: window,
 });
 
