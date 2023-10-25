@@ -13,7 +13,10 @@ export interface ScreenInterface {
   symbols: SymbolInterface[];
 
   update(delta: number): void;
+  createReels(): void;
   spin(): void;
+  saveSymbols(): void;
+  reset(): void;
 }
 
 class Screen implements ScreenInterface {
@@ -73,6 +76,14 @@ class Screen implements ScreenInterface {
     this.reels.forEach((reel) => {
       this.symbols.push(...reel.symbols);
     });
+  }
+  reset() {
+    console.log("611234567890 Screen resetting");
+    this.isReadyForEvaluation = false;
+    this.reels = [];
+    this.isSpinning = false;
+    this.symbols = [];
+    this.createReels();
   }
 }
 
