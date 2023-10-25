@@ -46,7 +46,14 @@ export class Symbol extends PIXI.Sprite {
     // add symbol to visibleSymbols array
     // when it's outside of the screen view, remove from the array (.markedForDeletion) (from Pixi docs: or set .renderable to false on an object you dont want to render)
   }
-  update(delta: number) {}
+  update(delta: number) {
+    this.handleRemove();
+  }
   getRandomSymbol() {}
   handleWin() {}
+  handleRemove() {
+    if (this.y > this.game.config.srceenHeight) {
+      this.isMarkedForDeletion = true;
+    }
+  }
 }
