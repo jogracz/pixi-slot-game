@@ -9,7 +9,7 @@ export interface GameInterface {
   screen: ScreenInterface;
   isSpinning: boolean;
 
-  assets?: {};
+  assets: { [key: string]: any };
 
   // spinButton: PIXI.Sprite;
   update(delta: number): void;
@@ -23,7 +23,7 @@ class Game implements GameInterface {
   isSpinning: boolean;
   // spinButton: PIXI.Sprite;
 
-  assets?: {};
+  assets: { [key: string]: any };
 
   constructor(
     app: PIXI.Application<HTMLCanvasElement>,
@@ -32,7 +32,7 @@ class Game implements GameInterface {
     this.app = app;
     this.config = config;
     this.screen = new Screen(this, config.numberOfReels);
-    this.assets = undefined;
+    this.assets = {};
     this.isSpinning = false;
     // this.spinButton = undefined
 
