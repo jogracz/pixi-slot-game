@@ -2,7 +2,7 @@ import * as PIXI from "pixi.js";
 
 import { random } from "../helpers";
 import { GameInterface } from "./Game";
-import { Symbol } from "./Symbol";
+import { Symbol, SymbolInterface } from "./Symbol";
 
 export interface ReelInterface {
   game: GameInterface;
@@ -11,6 +11,7 @@ export interface ReelInterface {
   reelLength: number;
   container: PIXI.Container;
   isSpinning: boolean;
+  isReadyForEvaluation: boolean;
   symbols: any[];
 
   update(delta: number): void;
@@ -24,6 +25,7 @@ class Reel implements ReelInterface {
   reelLength: number;
   container: PIXI.Container;
   isSpinning: boolean;
+  isReadyForEvaluation: boolean;
   symbols: any[];
 
   constructor(game: GameInterface, x: number, y: number) {
@@ -33,6 +35,7 @@ class Reel implements ReelInterface {
     this.symbols = [];
     this.reelLength = game.config.reelLength;
     this.isSpinning = false;
+    this.isReadyForEvaluation = false;
     this.container = new PIXI.Container();
 
     this.game.app.stage.addChild(this.container);
@@ -45,6 +48,14 @@ class Reel implements ReelInterface {
     this.symbols.forEach((symbol) => {
       symbol.update();
     });
+
+    if (this.symbols.length > 0) {
+      if (
+        this.symbols.every((symbol: SymbolInterface) => symbol.isInTargetPlace)
+      ) {
+        this.isReadyForEvaluation = true;
+      }
+    }
   }
   getRandomSymbol(row: number): PIXI.Sprite {
     const symbolIds = this.game.config.symbolIds;

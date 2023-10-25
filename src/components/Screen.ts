@@ -7,6 +7,7 @@ export interface ScreenInterface {
   reels: ReelInterface[];
   numberOfReels: number;
   isSpinning: boolean;
+  isReadyForEvaluation: boolean;
   container: PIXI.Container;
 
   update(delta: number): void;
@@ -18,6 +19,7 @@ class Screen implements ScreenInterface {
   reels: ReelInterface[];
   numberOfReels: number;
   isSpinning: boolean;
+  isReadyForEvaluation: boolean;
   container: PIXI.Container;
 
   constructor(game: GameInterface, numberOfReels: number) {
@@ -25,6 +27,7 @@ class Screen implements ScreenInterface {
     this.reels = [];
     this.numberOfReels = numberOfReels;
     this.isSpinning = false;
+    this.isReadyForEvaluation = false;
     this.container = new PIXI.Container();
     this.container.x =
       (this.game.config.gameWidth - this.game.config.screenWidth) / 2;
@@ -34,9 +37,13 @@ class Screen implements ScreenInterface {
     this.createReels();
   }
   update(delta: number) {
-    this.reels.forEach((reel) => {
+    console.log("Screen is ready for evaluation:", this.isReadyForEvaluation);
+    this.reels.forEach((reel, index) => {
       reel.update(delta);
     });
+    if (this.reels.every((reel: ReelInterface) => reel.isReadyForEvaluation)) {
+      this.isReadyForEvaluation = true;
+    }
   }
   createReels() {
     // create reels

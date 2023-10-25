@@ -8,6 +8,7 @@ export interface GameInterface {
   app: PIXI.Application<HTMLCanvasElement>;
   config: ConfigInterface;
   isSpinning: boolean;
+  isEvaluating: boolean;
   assets: { [key: string]: any };
   button: ButtonInterface;
   score: number;
@@ -23,6 +24,7 @@ class Game implements GameInterface {
   app: PIXI.Application<HTMLCanvasElement>;
   config: ConfigInterface;
   isSpinning: boolean;
+  isEvaluating: boolean;
   assets: { [key: string]: any };
   button: ButtonInterface;
   score: number;
@@ -39,6 +41,7 @@ class Game implements GameInterface {
     this.screen = undefined;
     this.assets = {};
     this.isSpinning = false;
+    this.isEvaluating = false;
     this.score = this.config.defaultScore;
     this.scoreDisplay = undefined;
     this.button = new Button(
@@ -84,11 +87,20 @@ class Game implements GameInterface {
     }
 
     this.screen && this.screen.update(delta);
+
+    if (this.screen && this.screen.isReadyForEvaluation && !this.isEvaluating) {
+      this.isSpinning = false;
+      this.evaluate();
+    }
   }
   spin() {
     this.button.disable();
     this.isSpinning = true;
     this.screen && this.screen.spin();
+  }
+  evaluate() {
+    console.log("Evaluating...");
+    this.isEvaluating = true;
   }
 }
 
