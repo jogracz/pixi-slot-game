@@ -1,6 +1,5 @@
 import * as PIXI from "pixi.js";
 
-import { random } from "../helpers";
 import { GameInterface } from "./Game";
 
 export interface SymbolInterface {
