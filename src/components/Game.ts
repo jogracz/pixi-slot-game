@@ -7,10 +7,11 @@ import Screen, { ScreenInterface } from "./Screen";
 export interface GameInterface {
   app: PIXI.Application<HTMLCanvasElement>;
   config: ConfigInterface;
-  screen: ScreenInterface;
   isSpinning: boolean;
   assets: { [key: string]: any };
   button: PIXI.Graphics;
+
+  screen?: ScreenInterface;
 
   update(delta: number): void;
   spin(): void;
@@ -19,10 +20,11 @@ export interface GameInterface {
 class Game implements GameInterface {
   app: PIXI.Application<HTMLCanvasElement>;
   config: ConfigInterface;
-  screen: ScreenInterface;
   isSpinning: boolean;
   assets: { [key: string]: any };
   button: PIXI.Graphics;
+
+  screen?: ScreenInterface;
 
   constructor(
     app: PIXI.Application<HTMLCanvasElement>,
@@ -30,7 +32,7 @@ class Game implements GameInterface {
   ) {
     this.app = app;
     this.config = config;
-    this.screen = new Screen(this, config.numberOfReels);
+    this.screen = undefined;
     this.assets = {};
     this.isSpinning = false;
     this.button = new Button(
@@ -51,10 +53,20 @@ class Game implements GameInterface {
     PIXI.Assets.addBundle("assets", assets);
     this.assets = await PIXI.Assets.loadBundle("assets");
   }
-  update(delta: number) {}
+  createScreen() {
+    this.screen = new Screen(this, this.config.numberOfReels);
+  }
+  update(delta: number) {
+    if (Object.keys(this.assets).length === 0) {
+      console.log("Loading...");
+    } else if (!this.screen) {
+      this.createScreen();
+    }
+  }
   spin() {
-    console.log("Spinning!");
+    console.log("SPINNING from Game");
     this.isSpinning = true;
+    this.screen && this.screen.spin();
   }
 }
 
