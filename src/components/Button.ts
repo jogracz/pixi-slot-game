@@ -2,7 +2,7 @@ import * as PIXI from "pixi.js";
 
 import { GameInterface } from "./Game";
 
-export interface ButtonInterface {
+export interface ButtonInterface extends PIXI.Graphics {
   game: GameInterface;
   text: string;
   isDisabled: boolean;
@@ -35,7 +35,7 @@ class Button extends PIXI.Graphics {
     this.height = height;
     this.text = text;
     this.isDisabled = false;
-    this.cursor = this.isDisabled ? "auto" : "pointer";
+    this.cursor = "pointer";
 
     this.draw();
     this.addText();
@@ -70,9 +70,11 @@ class Button extends PIXI.Graphics {
   }
   disable() {
     this.isDisabled = true;
+    this.cursor = "auto";
   }
   enable() {
     this.isDisabled = false;
+    this.cursor = "pointer";
   }
 }
 export default Button;

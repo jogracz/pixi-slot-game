@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 import assets from "../assets";
 import { ConfigInterface } from "../config";
-import Button from "./Button";
+import Button, { ButtonInterface } from "./Button";
 import Screen, { ScreenInterface } from "./Screen";
 
 export interface GameInterface {
@@ -9,7 +9,7 @@ export interface GameInterface {
   config: ConfigInterface;
   isSpinning: boolean;
   assets: { [key: string]: any };
-  button: PIXI.Graphics;
+  button: ButtonInterface;
   score: number;
 
   scoreDisplay?: PIXI.Text;
@@ -24,7 +24,7 @@ class Game implements GameInterface {
   config: ConfigInterface;
   isSpinning: boolean;
   assets: { [key: string]: any };
-  button: PIXI.Graphics;
+  button: ButtonInterface;
   score: number;
 
   scoreDisplay?: PIXI.Text;
@@ -86,6 +86,7 @@ class Game implements GameInterface {
     this.screen && this.screen.update(delta);
   }
   spin() {
+    this.button.disable();
     this.isSpinning = true;
     this.screen && this.screen.spin();
   }
