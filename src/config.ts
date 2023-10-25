@@ -19,6 +19,7 @@ export interface ConfigInterface {
   minMatch: number;
   defaultScore: number;
   prize: number;
+  symbolIds: string[];
 }
 
 const config: ConfigInterface = {
@@ -35,6 +36,25 @@ const config: ConfigInterface = {
   minMatch: 3,
   defaultScore: 100,
   prize: 5,
+  symbolIds: [
+    "s9",
+    "s10",
+    "A",
+    "J",
+    "K",
+    "Q",
+    "H1",
+    "H3",
+    "H4",
+    "H5",
+    "H6",
+    "M1",
+    "M2",
+    "M3",
+    "M4",
+    "M5",
+    "M6",
+  ],
 };
 
 export default config;
