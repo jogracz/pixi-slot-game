@@ -232,7 +232,7 @@ class Game implements GameInterface {
   }
   reset() {
     console.log("Resetting");
-    console.log("---------");
+    console.log("--------");
 
     this.screen?.reset();
     this.isReadyForReset = false;
